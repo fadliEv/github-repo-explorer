@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import type { FC } from 'react'
+import React, { useState, type FC } from 'react';
 
 type InputUsernameProps = {
   onSearch: (username: string) => void;
@@ -10,24 +9,19 @@ const InputUsername: FC<InputUsernameProps> = ({ onSearch }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (input.trim()) {
-      onSearch(input.trim());
-    }
+    if (input.trim()) onSearch(input.trim());
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto p-4">
+    <form onSubmit={handleSubmit} className="input-container">
       <input
         type="text"
         placeholder="Enter username"
         value={input}
         onChange={e => setInput(e.target.value)}
-        className="input-username"        
+        className="input-text"
       />
-      <button
-        type="submit"
-        className="btn-search"        
-      >
+      <button type="submit" className="input-btn">
         Search
       </button>
     </form>

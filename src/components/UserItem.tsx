@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import type { UserModel } from '../models/User';
-import type { FC } from 'react'
 import RepoItem from './RepoItem';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
-
 
 const UserItem: FC<UserModel> = ({ username, repos }) => {
   const [expanded, setExpanded] = useState(false);
@@ -11,8 +9,8 @@ const UserItem: FC<UserModel> = ({ username, repos }) => {
   return (
     <div>
       <div
-        className="user-item"
-        onClick={() => setExpanded(prev => !prev)}        
+        className="user-item-container"
+        onClick={() => setExpanded(p => !p)}
       >
         <span className="user-name">{username}</span>
         {expanded ? (
@@ -22,12 +20,10 @@ const UserItem: FC<UserModel> = ({ username, repos }) => {
         )}
       </div>
       {expanded && (
-        <div className="user-item-expanded">
-          <div className="repo-list">
-             {repos.map(repo => (
-              <RepoItem key={repo.id} repo={repo} />
-            ))}
-          </div>
+        <div className="repo-wrapper">
+          {repos.map(repo => (
+            <RepoItem key={repo.id} repo={repo} />
+          ))}
         </div>
       )}
     </div>

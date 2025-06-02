@@ -41,11 +41,13 @@ const App: React.FC = () => {
   const handleSearch = (username: string) => {};
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">GitHub User Search</h1>
+  <div className="app-background">
+    <div className="app-card">
+      <h1 className="app-title">GitHub User Search</h1>
       <InputUsername onSearch={handleSearch} />
       <UserList users={users} />
     </div>
+  </div>
   );
 };
 

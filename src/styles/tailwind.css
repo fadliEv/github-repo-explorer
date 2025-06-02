@@ -1,49 +1,42 @@
 @import "tailwindcss";
 
+/*---------------- APP --------------------------------------------  */
+
+.app-background {
+  @apply min-h-screen bg-gray-900 flex justify-center items-start py-12 px-4;
+}
+
+.app-card {
+  @apply bg-white rounded-lg shadow-2xl w-full max-w-xl p-8;
+}
+
+.app-title {
+  @apply text-3xl font-bold mb-6 text-center text-gray-800;
+}
 
 /*---------------- INPUTUSERNAME --------------------------------------------  */
 
-.input-username {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3;
+.input-container {
+  @apply max-w-md mx-auto p-4;
 }
-
-.btn-search {
+.input-text {
+  @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3;
+}
+.input-btn {
   @apply w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition;
 }
 
 /*---------------- USERITEM --------------------------------------------  */
 
 
-.user-item {
-  @apply border border-gray-300 rounded-md p-3 mb-2 cursor-pointer hover:bg-gray-100 flex justify-between items-center;
+.user-item-container {
+  @apply flex justify-between items-center p-4 bg-white rounded-lg shadow hover:shadow-md transition cursor-pointer mb-3;
 }
-
 .user-name {
-  @apply font-medium;
+  @apply text-lg font-medium text-gray-800;
 }
-
-.user-item-expanded {
-  @apply bg-gray-50 p-3 rounded mb-2;
-}
-
-.repo-list {
-  @apply mt-2 pl-4 border-l border-gray-300;
-}
-
-.repo-item {
-  @apply bg-gray-200 rounded p-2 mb-2 flex justify-between items-center;
-}
-
-.repo-title {
-  @apply font-semibold;
-}
-
-.repo-description {
-  @apply text-sm text-gray-700;
-}
-
-.repo-stars {
-  @apply text-sm font-medium;
+.repo-wrapper {
+  @apply pl-4 border-l-2 border-gray-200 ml-2;
 }
 
 /*---------------- USERLIST --------------------------------------------  */
@@ -52,7 +45,19 @@
   @apply max-w-sm mx-auto p-4;
 }
 
+/*---------------- REPOITEM --------------------------------------------  */
 
-
+.repo-item-container {
+  @apply flex justify-between items-center bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition mb-3;
+}
+.repo-title {
+  @apply text-lg font-semibold text-blue-600;
+}
+.repo-description {
+  @apply text-sm text-gray-600;
+}
+.repo-stars {
+  @apply flex items-center gap-1 text-yellow-500;
+}
 
 

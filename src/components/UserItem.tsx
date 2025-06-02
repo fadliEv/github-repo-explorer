@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { UserModel } from '../models/User';
 import type { FC } from 'react'
 import RepoItem from './RepoItem';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 
 
 const UserItem: FC<UserModel> = ({ username, repos }) => {
@@ -14,7 +15,11 @@ const UserItem: FC<UserModel> = ({ username, repos }) => {
         onClick={() => setExpanded(prev => !prev)}        
       >
         <span className="user-name">{username}</span>
-        <span>{expanded ? '<' : '>'}</span>
+        {expanded ? (
+          <ChevronUpIcon className="w-6 h-6 text-gray-600" />
+        ) : (
+          <ChevronDownIcon className="w-6 h-6 text-gray-600" />
+        )}
       </div>
       {expanded && (
         <div className="user-item-expanded">

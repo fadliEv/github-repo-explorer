@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import type RepoModel from '../models/Repo';
+import { StarIcon } from '@heroicons/react/16/solid';
 
 const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
   return (
@@ -9,8 +10,8 @@ const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
             <div className="repo-description">{repo.description}</div>
         </div>
         <div className="repo-stars flex items-center gap-1">
-            *
             <span>{repo.stargazersCount}</span>
+            <StarIcon className="w-5 h-5 text-yellow-400" />
         </div>
     </div>
   );

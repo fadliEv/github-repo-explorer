@@ -1,53 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import InputUsername from './components/InputUsername';
 import UserList from './components/UserList';
-import type { UserModel } from './models/User';
+import { useGitHubSearch } from './hooks/useGithubSearch';
 
-
-const dummyUsers: UserModel[] = [
-  {
-    username: 'bosque',
-    repos: [
-      {
-        id: 1,
-        name: 'awesome-project',
-        description: 'My awesome project repo',
-        stargazersCount: 42,
-      },
-      {
-        id: 2,
-        name: 'react-lib',
-        description: 'Reusable React components',
-        stargazersCount: 10,
-      },
-    ],
-  },
-  {
-    username: 'dev123',
-    repos: [
-      {
-        id: 3,
-        name: 'api-server',
-        description: 'Backend API server',
-        stargazersCount: 7,
-      },
-    ],
-  },
-];
 
 const App: React.FC = () => {
-  const [users, setUsers] = useState<UserModel[]>(dummyUsers);
-
-  const handleSearch = (username: string) => {};
+  const { users, loading, error, search } = useGitHubSearch();
 
   return (
-  <div className="app-background">
-    <div className="app-card">
-      <h1 className="app-title">GitHub User Search</h1>
-      <InputUsername onSearch={handleSearch} />
-      <UserList users={users} />
+    <div className="app-background">
+      <div className="app-card">
+        <h1 className="app-title">GitHub User Search</h1>
+        <InputUsername onSearch={search} />
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-600">{error}</p>}
+        <UserList users={users} />
+      </div>
     </div>
-  </div>
   );
 };
 

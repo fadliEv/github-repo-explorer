@@ -1,6 +1,8 @@
-export default interface RepoModel {
+export interface RepoModel {
   id: number;
   name: string;
-  description: string;
-  stargazersCount: number;
+  description: string | null;
+  stargazers_count: number;
+  language?: string | null;
+  html_url: string;
 }

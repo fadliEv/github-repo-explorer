@@ -11,9 +11,8 @@ const UserList: FC<UserListProps> = ({users}) => {
     <div className="user-list">
       {users.map(user => (
         <UserItem
-          key={user.username}
-          username={user.username}
-          repos={user.repos}
+          key={user.login}          
+          {...user}
         />
       ))}
     </div>

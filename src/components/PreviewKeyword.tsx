@@ -1,6 +1,5 @@
 import { type FC } from 'react';
 
-
 type KeywordProps = {
   keyword: String;
 };

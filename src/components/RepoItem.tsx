@@ -10,7 +10,7 @@ const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
 
   return (
     <div className="repo-item-container">
-      <div>
+      <div className='pe-3'>
         <a
           href={repo.html_url}
           target="_blank"

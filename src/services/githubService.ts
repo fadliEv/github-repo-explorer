@@ -44,9 +44,11 @@ export const getUserDetails = async (login: string): Promise<Partial<UserModel>>
   }
 };
 
-export const getUserRepos = async (login: string): Promise<RepoModel[]> => {
+export const getUserRepos = async (login: string, page = 1, per_page = 5): Promise<RepoModel[]> => {
   try {
-    const res = await apiClient.get(`/users/${login}/repos`);
+    const res = await apiClient.get(`/users/${login}/repos`, {
+      params: { page, per_page },
+    });
     return res.data.map((repo: any) => ({
       id: repo.id,
       name: repo.name,

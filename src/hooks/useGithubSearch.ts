@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { UserModel } from '../models/User';
 import type { PaginationParams } from '../models/Pagination';
-import { searchUsers, getUserDetails, getUserRepos } from '../services/githubService';
+import { searchUsers, getUserDetails } from '../services/githubService';
 
 type UserWithRepos = UserModel & { repos: any[]; name?: string; location?: string | null; followers?: number };
 

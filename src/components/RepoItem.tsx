@@ -19,7 +19,7 @@ const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
         >
           {repo.name}
         </a>
-        <div className="repo-description">{truncate(repo.description, 100)}</div>
+        <div className="repo-description">{truncate(repo.description, 80)}</div>
       </div>
       <div className="repo-stars">
         <StarIcon className="w-5 h-5" />

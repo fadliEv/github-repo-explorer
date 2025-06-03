@@ -38,8 +38,7 @@ const UserItem: FC<UserItemProps> = ({
       setLocalRepos(prev => [...prev, ...newRepos]);
       updateUserRepos(login, [...localRepos, ...newRepos]);
       setHasMore(newRepos.length === perPage);
-    } catch (err) {
-      console.error(err);
+    } catch (err) {      
       setHasMore(false);
     } finally {
       setLoadingRepos(false);

@@ -10,15 +10,27 @@ type InputUsernameProps = {
 const InputUsername: FC<InputUsernameProps> = ({ onSearch, onReset }) => {
   const [input, setInput] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (input.trim()) onSearch(input.trim());
+    if (input.trim().length >= 3) onSearch(input.trim());
   };
 
   const handleReset = () => {
     setInput('');
     if (onReset) onReset();
   };
+
+  const isInputValid:Boolean = input.trim().length >= 3;
+
+  const baseBtnClass = 'input-btn transition flex justify-center items-center';
+
+  const searchBtnClass = `${baseBtnClass} w-5/6 ${
+    isInputValid ? 'hover:bg-blue-600 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+  }`;
+
+  const resetBtnClass = `${baseBtnClass} w-1/6 ms-1 ${
+    isInputValid ? 'hover:bg-blue-600 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+  }`;
 
   return (
     <form onSubmit={handleSubmit} className="input-container items-center">
@@ -31,15 +43,21 @@ const InputUsername: FC<InputUsernameProps> = ({ onSearch, onReset }) => {
         autoFocus
       />
       <div className='flex'>
-      <button type="submit" className="input-btn w-5/6">
+     <button
+        type="submit"
+        className={searchBtnClass}
+        disabled={!isInputValid}
+      >
         Search
       </button>
+
       <button
         type="button"
         onClick={handleReset}
-        className="input-btn flex justify-center items-center ms-1 w-1/6"
+        className={resetBtnClass}
+        disabled={!isInputValid}
       >
-         <ArrowPathIcon className="h-5 w-5" />
+        <ArrowPathIcon className="h-5 w-5" />
       </button>
       </div>      
     </form>

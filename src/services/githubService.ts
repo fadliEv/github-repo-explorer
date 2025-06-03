@@ -2,6 +2,7 @@ import type { PaginationParams, PaginationResponse } from '../models/Pagination'
 import apiClient from './apiClient';
 import type { UserModel } from '../models/User';
 import type { RepoModel } from '../models/Repo';
+import { parseAxiosError } from '../utils/parseAxiosError';
 
 export const searchUsers = async (
   keyword: string,
@@ -24,9 +25,9 @@ export const searchUsers = async (
     }));
 
     return { items: users, total_count: res.data.total_count };
-  } catch (error) {
-    console.error('searchUsers error:', error);
-    throw new Error('Failed to fetch users');
+  } catch (error) {    
+    const msg = parseAxiosError(error);
+    throw new Error(`search users is failed: ${msg}`);
   }
 };
 
@@ -38,9 +39,9 @@ export const getUserDetails = async (login: string): Promise<Partial<UserModel>>
       location: res.data.location,
       followers: res.data.followers,
     };
-  } catch (error) {
-    console.error('getUserDetails error:', error);
-    throw new Error('Failed to fetch user details');
+  } catch (error) {    
+    const msg = parseAxiosError(error);
+    throw new Error(`get user details is failed: ${msg}`);
   }
 };
 
@@ -57,8 +58,8 @@ export const getUserRepos = async (login: string, page = 1, per_page = 5): Promi
       language: repo.language,
       html_url: repo.html_url,
     }));
-  } catch (error) {
-    console.error(`getUserRepos error for ${login}:`, error);
-    throw new Error('Failed to fetch repos');
+  } catch (error) {    
+    const msg = parseAxiosError(error);
+    throw new Error(`get repo by username is failed: ${msg}`);
   }
 };

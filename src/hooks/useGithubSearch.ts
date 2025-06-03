@@ -1,24 +1,37 @@
 import { useState } from 'react';
 import type { UserModel } from '../models/User';
-import type { RepoModel } from '../models/Repo';
-import { searchUsers, getUserRepos, getUserDetails } from '../services/githubService';
+import type { PaginationParams } from '../models/Pagination';
+import { searchUsers, getUserDetails, getUserRepos } from '../services/githubService';
 
-type UserWithRepos = UserModel & { repos: RepoModel[]; name?: string; location?: string | null; followers?: number };
+type UserWithRepos = UserModel & { repos: any[]; name?: string; location?: string | null; followers?: number };
 
 export const useGitHubSearch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [users, setUsers] = useState<UserWithRepos[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
+  const itemsPerPage = Number(import.meta.env.VITE_ITEMS_PER_PAGE) || 5;
 
-  const search = async (keyword: string) => {
+  const search = async (newKeyword: string, pageNumber: number = 1) => {
+    if (!newKeyword.trim()) return;
     setLoading(true);
     setError(null);
 
     try {
-      const basicUsers = await searchUsers(keyword);
+      setKeyword(newKeyword);
+      setPage(pageNumber);
+
+      const pagination: PaginationParams = {
+        page: pageNumber,
+        per_page: itemsPerPage,
+      };
+
+      const { items: fetchedUsers, total_count } = await searchUsers(newKeyword, pagination);
 
       const detailedUsers = await Promise.all(
-        basicUsers.map(async (user) => {
+        fetchedUsers.map(async (user) => {
           const details = await getUserDetails(user.login);
           const repos = await getUserRepos(user.login);
           return { ...user, ...details, repos };
@@ -26,6 +39,7 @@ export const useGitHubSearch = () => {
       );
 
       setUsers(detailedUsers);
+      setTotalCount(total_count);
     } catch (err: any) {
       setError(err.message || 'Unknown error');
     } finally {
@@ -33,5 +47,14 @@ export const useGitHubSearch = () => {
     }
   };
 
-  return { users, loading, error, search };
+  const reset = () => {
+    setUsers([]);
+    setTotalCount(0);
+    setPage(1);
+    setKeyword('');
+    setError(null);
+    setLoading(false);
+  };
+
+  return { users, totalCount, loading, error, page, itemsPerPage, keyword, search, setPage, reset };
 };

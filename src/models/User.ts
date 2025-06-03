@@ -8,5 +8,5 @@ export interface UserModel {
   location?: string | null;
   followers?: number;
   repos_url: string;
-  repos: RepoModel[];  // repos sudah embed di user untuk UI
+  repos: RepoModel[];
 }

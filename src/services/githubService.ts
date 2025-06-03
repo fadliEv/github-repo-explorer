@@ -1,25 +1,29 @@
-import axios from 'axios';
+import type { PaginationParams, PaginationResponse } from '../models/Pagination';
+import apiClient from './apiClient';
 import type { UserModel } from '../models/User';
 import type { RepoModel } from '../models/Repo';
 
-const githubAPI = axios.create({
-  baseURL: 'https://api.github.com',
-  timeout: 8000,
-  headers: { Accept: 'application/vnd.github.v3+json' },
-});
-
-export const searchUsers = async (keyword: string): Promise<UserModel[]> => {
+export const searchUsers = async (
+  keyword: string,
+  pagination: PaginationParams
+): Promise<PaginationResponse<UserModel>> => {
   try {
-    const res = await githubAPI.get('/search/users', {
-      params: { q: keyword, per_page: 5 },
+    const res = await apiClient.get('/search/users', {
+      params: {
+        q: keyword,
+        page: pagination.page,
+        per_page: pagination.per_page,
+      },
     });
-    // res.data.items adalah array user dari API
-    return res.data.items.map((u: any) => ({
+
+    const users = res.data.items.map((u: any) => ({
       id: u.id,
       login: u.login,
       avatar_url: u.avatar_url,
       repos_url: u.repos_url,
     }));
+
+    return { items: users, total_count: res.data.total_count };
   } catch (error) {
     console.error('searchUsers error:', error);
     throw new Error('Failed to fetch users');
@@ -28,7 +32,7 @@ export const searchUsers = async (keyword: string): Promise<UserModel[]> => {
 
 export const getUserDetails = async (login: string): Promise<Partial<UserModel>> => {
   try {
-    const res = await githubAPI.get(`/users/${login}`);
+    const res = await apiClient.get(`/users/${login}`);
     return {
       name: res.data.name,
       location: res.data.location,
@@ -36,13 +40,13 @@ export const getUserDetails = async (login: string): Promise<Partial<UserModel>>
     };
   } catch (error) {
     console.error('getUserDetails error:', error);
-    return {};
+    throw new Error('Failed to fetch user details');
   }
 };
 
 export const getUserRepos = async (login: string): Promise<RepoModel[]> => {
   try {
-    const res = await githubAPI.get(`/users/${login}/repos`);
+    const res = await apiClient.get(`/users/${login}/repos`);
     return res.data.map((repo: any) => ({
       id: repo.id,
       name: repo.name,

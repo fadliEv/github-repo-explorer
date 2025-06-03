@@ -5,7 +5,7 @@ const Loading: React.FC = () => {
         <div className='w-full'>        
         {
             [...Array(5)].map((_,idx) => (
-                <div className="w-full px-3 py-4">
+                <div className="w-full px-3 py-4" key={idx}>
                     <div className="flex animate-pulse space-x-4">
                         <div className="size-16 rounded-full bg-gray-200"></div>
                         <div className="flex-1 space-y-7 py-1">

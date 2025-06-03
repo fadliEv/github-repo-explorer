@@ -32,9 +32,8 @@ export const useGitHubSearch = () => {
 
       const detailedUsers = await Promise.all(
         fetchedUsers.map(async (user) => {
-          const details = await getUserDetails(user.login);
-          const repos = await getUserRepos(user.login);
-          return { ...user, ...details, repos };
+          const details = await getUserDetails(user.login);          
+          return { ...user, ...details, repos : [] };
         })
       );
 
@@ -56,5 +55,13 @@ export const useGitHubSearch = () => {
     setLoading(false);
   };
 
-  return { users, totalCount, loading, error, page, itemsPerPage, keyword, search, setPage, reset };
+  const updateUserRepos = (login: string, repos: any[]) => {
+    setUsers(prev =>
+      prev.map(user =>
+        user.login === login ? { ...user, repos } : user
+      )
+    );
+  };
+
+  return { users, totalCount, loading, error, page, itemsPerPage, keyword, search, setPage, reset, updateUserRepos };
 };

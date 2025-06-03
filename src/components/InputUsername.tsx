@@ -41,7 +41,7 @@ const InputUsername: FC<InputUsernameProps> = ({ onSearch, onReset }) => {
       >
          <ArrowPathIcon className="h-5 w-5" />
       </button>
-      </div>
+      </div>      
     </form>
   );
 };

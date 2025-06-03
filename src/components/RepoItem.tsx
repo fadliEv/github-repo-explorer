@@ -3,6 +3,11 @@ import { StarIcon } from '@heroicons/react/16/solid';
 import type { RepoModel } from '../models/Repo';
 
 const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
+  const truncate = (text: string | null | undefined, maxLength: number) => {
+    if (!text) return '';
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  };
+
   return (
     <div className="repo-item-container">
       <div>
@@ -14,7 +19,7 @@ const RepoItem: FC<{ repo: RepoModel }> = ({ repo }) => {
         >
           {repo.name}
         </a>
-        <div className="repo-description">{repo.description}</div>
+        <div className="repo-description">{truncate(repo.description, 100)}</div>
       </div>
       <div className="repo-stars">
         <StarIcon className="w-5 h-5" />

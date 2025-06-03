@@ -1,16 +1,33 @@
 import type { FC } from 'react';
 import UserItem from './UserItem';
 import type { UserModel } from '../models/User';
+import Loading from './Loading';
 
 type UserListProps = {
   users: UserModel[];
+  loading: boolean;
+  error: string | null;
 };
 
-const UserList: FC<UserListProps> = ({ users }) => {
+const UserList: FC<UserListProps> = ({ users, loading, error }) => {
+  if (loading) return (
+    <div className="user-list-empty"> 
+      <Loading />
+    </div>
+  );
+
+  if (error) return (
+    <div className="user-list-empty">
+      <p className="text-red-600 text-center">{error}</p>
+    </div>
+  );
+
   if (users.length === 0) {
-    return <div className="user-list">
-      <p className="empty-message">Belum melakukan pencarian atau data kosong.</p>
-    </div>;
+    return (
+      <div className="user-list-empty">
+        <p className="empty-message">No search results found</p>
+      </div>
+    );
   }
 
   return (

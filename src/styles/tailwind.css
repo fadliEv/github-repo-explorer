@@ -45,6 +45,10 @@
   @apply mx-auto p-4 h-[555px] overflow-y-auto border border-gray-100 rounded-md bg-white shadow;
 }
 
+.user-list-empty {
+  @apply mx-auto p-4 h-[555px] overflow-y-auto border border-gray-100 rounded-md bg-white shadow flex justify-center items-center ;
+}
+
 .repo-wrapper {
   @apply pl-4 border-l-2 border-gray-200 ml-2 max-h-[300px] overflow-y-auto;
 }

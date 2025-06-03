@@ -28,6 +28,7 @@ const InputUsername: FC<InputUsernameProps> = ({ onSearch, onReset }) => {
         value={input}
         onChange={e => setInput(e.target.value)}
         className="input-text flex-grow"
+        autoFocus
       />
       <div className='flex'>
       <button type="submit" className="input-btn w-5/6">

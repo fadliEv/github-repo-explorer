@@ -1,54 +1,119 @@
-# React + TypeScript + Vite
+# GitHub Repo Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **React + TypeScript** web app to search GitHub users and explore their repositories. Built with **Vite**, **Tailwind CSS**, and **Axios**.
 
-Currently, two official plugins are available:
+Live Demo follow this Link : https://fadliev.github.io/github-repo-explorer/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![gif-image](/demo.gif)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. ✅ Search GitHub users by username
+2. ✅ Display user profile details
+3. ✅ Pagination of search results (5 users per page)
+4. ✅ Lazy load repositories per user (with infinite scroll)
+
+---
+
+## Project Structure
+
+```
+src/
+├── assets/
+├── components/         # React UI components
+├── hooks/              # Custom hooks (e.g., useGithubSearch)
+├── models/             # TypeScript models (User, Repo, Pagination)
+├── services/           # API service layer (githubService, apiClient)
+├── utils/              # Helper utilities (parseAxiosError)
+├── styles/             # Tailwind CSS files
+├── App.tsx             # Main App component
+└── main.tsx            # ReactDOM entry
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The folder structure follows a feature-modular approach with clear separation of concerns. As projects grow in complexity, the structure may evolve to include:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- ***Feature-based grouping***: Larger applications might group files by feature (e.g., users/, repos/) containing their own components, hooks, and types
+- ***Testing directories***: Either colocated tests (__tests__ folders) or a separate tests/ directory
+- ***State management***: Additional folders for store/ (Redux) or contexts/ if needed
+- ***Route management***: routes/ or pages/ folder for routing configurations
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+For deeper insights on scalable React project structures, refer to: : https://dev.to/itswillt/folder-structures-in-react-projects-3dp8 
+
+---
+
+## Environment Setup
+
+### Prerequisites
+
+- [Node.js (v18 or later recommended)](https://nodejs.org/en/download)
+- [Git](https://git-scm.com/)
+
+### Installation Steps
+
+1. Clone repository:
+
+   ```bash
+   git clone https://github.com/fadliEv/github-repo-explorer.git
+   cd github-repo-explorer
+   ```
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+   **Troubleshooting**: If encountering dependency errors:
+
+    ```bash
+   rm -rf package-lock.json node_modules
+   npm install --legacy-peer-deps
+   ```
+
+3. Create `.env` file:
+
+   ```bash
+   VITE_BASE_URL=https://api.github.com   
+   VITE_ITEMS_PER_PAGE=5
+   ```
+4. Start local dev server:
+
+   ```bash
+   npm run dev
+   ```   
+---
+
+## Deployment
+
+1. Update `package.json`:
+
+   ```json
+   "homepage": "https://<your-github-username>.github.io/<your-repo-name>"
+   ```
+2. Set `base` in `vite.config.ts`:
+
+   ```ts
+   base: '/<your-repo-name>/'
+   ```
+3. Build & deploy to GitHub Pages:
+
+   ```bash
+   npm run predeploy
+   npm run deploy
+   ```
+   **Deploy Reference**: [react-gh-pages Guide](https://github.com/gitname/react-gh-pages)
+---
+
+## ⚠️ Notes
+
+### API Rate Limits Notice : 
+- Current implementation uses unauthenticated GitHub API **(60 requests/hour limit)**
+- ***Never expose tokens in client-side code***, To increase the API rate limit using a GitHub token, please note this introduces deployment security concerns. GitHub's token protection requires a server-side solution as the ideal architecture. The recommended approach is:
+   - Create a backend service (Node.js/Express, etc.) to handle authentication
+   - Store and manage tokens securely on the server
+   - Have the frontend communicate only with your proxy endpoint
+
+This pattern ensures tokens never get exposed to client-side code while still allowing higher rate limits.
+
+More Explanation About limitation API Follow this link : https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
